@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: rSherstiuk
+      changes:
+        - createTable:
+            tableName: books
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: genre
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: author_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_author
+                    references: authors(id)
+
+  - changeSet:
+      id: "add_summary"
+      author: rSherstiuk
+      changes:
+        - addColumn:
+            tableName: books
+            columns:
+              - column:
+                  name: summary
+                  type: varchar(2000)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: "add_cover_url"
+      author: rSherstiuk
+      changes:
+        - addColumn:
+            tableName: books
+            columns:
+              - column:
+                  name: cover_url
+                  type: varchar(1000)
+                  constraints:
+                    nullable: false
