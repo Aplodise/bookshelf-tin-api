@@ -1,7 +1,0 @@
-databaseChangeLog:
-  - include:
-      file: authors_table.yaml
-      relativeToChangelogFile: true
-  - include:
-      file: books_table.yaml
-      relativeToChangelogFile: true
