@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Table(name = "books")
 @Entity
 @NoArgsConstructor
@@ -25,4 +27,7 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
+
+    @OneToMany(mappedBy = "book")
+    private Set<BookComment> bookComments;
 }
