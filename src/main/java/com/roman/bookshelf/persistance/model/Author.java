@@ -33,6 +33,5 @@ public class Author {
     @Column(name = "cover_url")
     private String coverUrl;
     @OneToMany(mappedBy = "author")
-    @JsonIgnore
     private Set<Book> books;
 }
