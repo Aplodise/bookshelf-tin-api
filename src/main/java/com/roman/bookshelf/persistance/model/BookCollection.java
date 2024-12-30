@@ -24,7 +24,7 @@ public class BookCollection {
     private Status status;
 
     @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime readAt;
 
     @ManyToOne()

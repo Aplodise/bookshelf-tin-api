@@ -1,6 +1,7 @@
 package com.roman.bookshelf.service.mapper;
 
 import com.roman.bookshelf.domain.collection.CollectionResponseDto;
+import com.roman.bookshelf.domain.collection.CollectionWithPageCountResponseDto;
 import com.roman.bookshelf.persistance.model.BookCollection;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

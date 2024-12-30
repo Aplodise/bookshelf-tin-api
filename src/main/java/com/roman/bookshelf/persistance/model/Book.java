@@ -1,6 +1,7 @@
 package com.roman.bookshelf.persistance.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class Book {
     private Long id;
     private String title;
     private String genre;
+    @Size(max = 2000)
     private String summary;
     @Column(name = "cover_url")
     private String coverUrl;
@@ -28,6 +30,9 @@ public class Book {
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<BookComment> bookComments;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BookCollection> bookCollections;
 }

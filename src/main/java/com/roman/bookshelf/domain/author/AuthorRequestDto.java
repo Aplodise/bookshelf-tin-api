@@ -7,5 +7,5 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
 public record AuthorRequestDto(@NotEmpty @Size(min = 2, max = 50) String firstName, @NotEmpty @Size(min = 2, max = 50) String lastName,
-                               @Past LocalDate birthDate, String coverUrl) {
+                               @Past LocalDate birthDate,  String coverUrl, @Size(min =2, max = 2000) String summary) {
 }

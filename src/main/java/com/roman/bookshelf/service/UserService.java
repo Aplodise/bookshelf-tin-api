@@ -33,7 +33,6 @@ public class UserService {
                 .ifPresent(u -> {throw new IllegalArgumentException("User already exists");});
 
         User user = userMapper.signUpToUser(userDto);
-        user.setRole(Role.USER);
         user.setPassword(passwordEncoder.encode(CharBuffer.wrap(userDto.getPassword())));
         return userMapper.toDto(userRepository.save(user));
     }

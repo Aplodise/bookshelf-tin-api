@@ -1,14 +1,11 @@
 package com.roman.bookshelf.controller;
 
-import com.roman.bookshelf.domain.book.BookDetailsDto;
-import com.roman.bookshelf.domain.book.BookDto;
-import com.roman.bookshelf.domain.book.BookRequestDto;
+import com.roman.bookshelf.domain.book.*;
 import com.roman.bookshelf.service.BookService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,7 +13,7 @@ import java.util.List;
 public class BookController {
     private final BookService bookService;
     @GetMapping
-    public ResponseEntity<List<BookDto>> getBooks(@RequestParam(required = false, defaultValue = "0") Integer page){
+    public ResponseEntity<BooksWithPageCountDto> getBooks(@RequestParam(required = false, defaultValue = "0") Integer page){
         return ResponseEntity.ok(bookService.getBooks(page));
     }
 
@@ -29,4 +26,19 @@ public class BookController {
     public ResponseEntity<BookDto> createBook(@RequestBody BookRequestDto bookRequestDto){
         return ResponseEntity.ok(bookService.createBook(bookRequestDto));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
+        bookService.deleteBook(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BookDetailsDto> updateBookSummary(
+            @PathVariable Long id,
+            @RequestBody @Valid SummaryDto summary) {
+        BookDetailsDto updatedBook = bookService.updateBookSummary(id, summary);
+        return ResponseEntity.ok(updatedBook);
+    }
+
 }

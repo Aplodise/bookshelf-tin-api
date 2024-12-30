@@ -24,7 +24,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
@@ -32,11 +32,14 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
         configuration.setAllowedMethods(Arrays.asList(
                 HttpMethod.GET.name(),
                 HttpMethod.POST.name(),
-                HttpMethod.OPTIONS.name()));
+                HttpMethod.OPTIONS.name(),
+                HttpMethod.DELETE.name(),
+                HttpMethod.PUT.name(),
+                HttpMethod.PATCH.name()));
         configuration.setAllowedHeaders(Arrays.asList(
                 HttpHeaders.AUTHORIZATION,
                 HttpHeaders.CONTENT_TYPE));
@@ -49,10 +52,10 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .exceptionHandling(cust -> cust.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .addFilterBefore(new JwtAuthFilter(userAuthenticationProvider), BasicAuthenticationFilter.class)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/register", "/login").permitAll())
-                .authorizeHttpRequests(auth -> auth
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/register", "/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/books", "/books/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/authors", "/authors/**").permitAll()
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
